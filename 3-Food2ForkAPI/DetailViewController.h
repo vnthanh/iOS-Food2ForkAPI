@@ -16,4 +16,6 @@
 - (IBAction)btnNextDidTouch:(id)sender;
 
 @property int recipeIndex;
+
+@property (retain, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
 @end

@@ -33,6 +33,10 @@
 
 - (void)downloadAndParseAndUpdate {
     
+    // start indicator
+    [self.indicator startAnimating];
+    self.indicator.hidesWhenStopped = YES;
+    
     Recipe *tempRecipe = _arrayOfRecipes[self.recipeIndex];
     
     // set main title
@@ -68,6 +72,9 @@
             
             // set view controller image, image cover all
             [self.view setBackgroundColor:[UIColor colorWithPatternImage:image]];
+            
+            // stop indicator
+            [self.indicator stopAnimating];
         });
     });
     
@@ -93,6 +100,7 @@
 - (void)dealloc {
     [_imvRecipeImage release];
     [_txtvIngredient release];
+    [_indicator release];
     [super dealloc];
 }
 - (IBAction)btnRevDidTouch:(id)sender {

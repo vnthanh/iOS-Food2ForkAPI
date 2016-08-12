@@ -11,8 +11,15 @@
 #import "RecipesTableViewCell.h"
 #import "DetailViewController.h"
 
+#define kURLString @"http://food2fork.com/api/search?key=7094f866ecc388982e34015eddfaa2d8&page="
+
+
 @interface ViewController ()
 @property (nonatomic) int recipesCount;
+@property int pageNumber; //to append to url request string, to get specific page from API
+
+// to animate an indicator, add programmatically
+@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 @end
 
 static NSMutableArray *arrayOfRecipes;
@@ -25,19 +32,39 @@ static NSMutableArray *arrayOfRecipes;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    // add activity indicator
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
+    [self navigationItem].rightBarButtonItem = barButton;
     
     arrayOfRecipes = [[NSMutableArray alloc] init];
+
+    // page number init
+    self.pageNumber = 1;
     
-    NSURL *url = [NSURL URLWithString:@"http://food2fork.com/api/search?key=7094f866ecc388982e34015eddfaa2d8"];
+    // set string
+    NSString *urlString = [NSString stringWithFormat:@"%@%d",kURLString,self.pageNumber];
+    NSURL *url = [NSURL URLWithString:urlString];
     
+    // start indicator. NOTE : MUST CALL IN MAIN THREAD (UI THREAD)
+    [self.activityIndicator startAnimating];
+    
+    // and call request, parse thread
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData *data = [NSData dataWithContentsOfURL:url];
         [self fetchedData:data];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tbvRecipes reloadData];
+            
+            // stop indicator
+            [self.activityIndicator stopAnimating];
         });
     });
+    
+    
+
     
 }
 
@@ -85,8 +112,7 @@ static NSMutableArray *arrayOfRecipes;
     cell.lblRecipePublisher.text = tempRecipe.publisher;
     cell.lblRecipeRank.text = [tempRecipe.rank stringValue];
     
-    // fix laggy load image from url & "image chance issue"
-
+    // fix laggy load image from url & "image change issue"
     NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:tempRecipe.imageURL] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (data) {
             UIImage *image = [UIImage imageWithData:data];
@@ -98,6 +124,33 @@ static NSMutableArray *arrayOfRecipes;
         }
     }];
     [task resume];
+    
+    
+    // when reach last cell, start sen request and parse more, add more to array
+    if(indexPath.row == arrayOfRecipes.count-1)
+    {
+        // increase page number, to append to url string
+        self.pageNumber ++;
+        
+        // start indicator. NOTE : MUST CALL IN MAIN THREAD  (UI UPDATE)
+        [self.activityIndicator startAnimating];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *urlString = [NSString stringWithFormat:@"%@%d",kURLString,self.pageNumber];
+            NSURL *url = [NSURL URLWithString:urlString];
+            
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            [self fetchedData:data];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tbvRecipes reloadData];
+                
+                // stop indicator
+                [self.activityIndicator stopAnimating];
+
+            });
+        });
+    }
     
     return cell;
 }
@@ -115,6 +168,7 @@ static NSMutableArray *arrayOfRecipes;
     
     [vc setRecipeIndex:(int)indexPath.row];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

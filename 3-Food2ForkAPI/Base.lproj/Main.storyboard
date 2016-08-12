@@ -131,6 +131,22 @@
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="K8a-Ea-Ktw">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="jYy-3H-Std">
+                                            <rect key="frame" x="147" y="270" width="20" height="20"/>
+                                            <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="VXW-nx-mgZ">
+                                                    <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="VXW-nx-mgZ" firstAttribute="top" secondItem="jYy-3H-Std" secondAttribute="top" id="iM9-Yf-10p"/>
+                                            </constraints>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="jYy-3H-Std" firstAttribute="leading" secondItem="K8a-Ea-Ktw" secondAttribute="leading" constant="147" id="5qs-Se-dgY"/>
+                                    </constraints>
                                 </view>
                                 <blurEffect style="light"/>
                             </visualEffectView>
@@ -168,19 +184,19 @@
                                     <action selector="btnNextDidTouch:" destination="uNT-cz-E2y" eventType="touchUpInside" id="q6e-Ea-cVi"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="PTY-9s-r2D">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text=" " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="PTY-9s-r2D">
                                 <rect key="frame" x="20" y="299" width="560" height="253"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="253" id="Be8-fR-Zm0"/>
                                 </constraints>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="VXW-nx-mgZ" firstAttribute="baseline" secondItem="eIx-Ps-Xe4" secondAttribute="baseline" id="23k-xS-UOU"/>
                             <constraint firstItem="dwd-qC-d3a" firstAttribute="centerX" secondItem="i48-4J-8Ww" secondAttribute="centerX" constant="-40" id="Da6-ls-XaX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Dnk-0e-pyC" secondAttribute="trailing" constant="-20" id="MBN-Xf-aSq"/>
                             <constraint firstItem="Dnk-0e-pyC" firstAttribute="leading" secondItem="i48-4J-8Ww" secondAttribute="leadingMargin" constant="-20" id="Oru-g7-Zvk"/>
@@ -203,6 +219,7 @@
                     <navigationItem key="navigationItem" id="gN7-B3-Q2F"/>
                     <connections>
                         <outlet property="imvRecipeImage" destination="hBn-ni-euv" id="F8x-wy-pq4"/>
+                        <outlet property="indicator" destination="VXW-nx-mgZ" id="imn-85-1yl"/>
                         <outlet property="txtvIngredient" destination="PTY-9s-r2D" id="x6e-AG-Fge"/>
                     </connections>
                 </viewController>
@@ -228,23 +245,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YU4-yv-C7G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="545" y="1150"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="7rW-mX-VYU">
-            <objects>
-                <viewController id="Xzm-nw-nWB" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="CEh-pP-tGY"/>
-                        <viewControllerLayoutGuide type="bottom" id="7pB-H7-Z3S"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Fye-TL-JCO">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YLh-0z-V0E" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
 </document>
